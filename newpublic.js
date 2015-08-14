@@ -10,6 +10,7 @@ var public={};
 var public.utils={}; 
 var public.tools={};
 var public.Math={};
+var public.other={};
 /**
  * 模板替换方法
  */
@@ -113,6 +114,32 @@ public.Math={
 
 		            return changenum;
 			}
+};
+public.other={
+       windowToOpen:function(){
+            // 一个函数中如果有ajax 根据回调的结果来判断是否进行跳转window.open 解决浏览器拦截的方法
+            // window.open要写在事件函数中 避免浏览器拦截
+           var success=false;
+           $.ajax({
+           	url:url,
+           	data:null,
+           	type:"post",
+           	success:function(result){
+           		if(result.success){
+           			success=true;
+           		}
+           	}
+           })
+             setTimeout(function(){
+             if(success){
+            window.open(BUYER_BASE_URL+"/companyAttachment/collectionData");
+        }
+    },100);
+
+
+       }
+
+
 }
 
 
