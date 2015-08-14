@@ -11,6 +11,7 @@ var public.utils={};
 var public.tools={};
 var public.Math={};
 var public.other={};
+var public.date={};
 /**
  * 模板替换方法
  */
@@ -70,8 +71,7 @@ public.utils={
         }
         setInterval(observe,2000)
       }
-
-}
+};
 
 public.tools={
     /**
@@ -132,14 +132,74 @@ public.other={
            })
              setTimeout(function(){
              if(success){
-            window.open(BUYER_BASE_URL+"/companyAttachment/collectionData");
-        }
-    },100);
-
-
+                window.open(BUYER_BASE_URL+"/companyAttachment/collectionData");
+           }   
+         },100);
        }
+};
+public.date={
+	// 一个日期从1号到现在的周数.
+	/**
+	 * [weekOfYear 计算日期在一年中是第几周]
+	 * @param  {[Date]} adate
+	 * @return {[int]} 周数
+	 */
+	weekOfYear: function(adate) {
+		var weekofyear1 = 0
+		d = adate,
+			myYear = d.getFullYear(),
+			firstDate = new Date(myYear, 0, 1),
+			dayofyear = 0;
+		for (var i = 0; i < d.getMonth(); i++) {
+			switch (i) {
+				case 0:
+				case 2:
+				case 4:
+				case 6:
+				case 7:
+				case 9:
+					dayofyear += 31;
+					break;
+				case 1:
+					if (public.isLeapYear(myYear)) {
+						dayofyear += 29;
+					} else {
+						dayofyear += 28;
+					}
+					break;
+				case 3:
+				case 5:
+				case 8:
+				case 10:
+					dayofyear += 30;
+					break;
+			}
+		}
+		dayofyear += d.getDate();
+		var firstweek = 7 - (firstDate.getDay() == 0 ? 7 : firstDate.getDay()) + 2; //第二周的开始时间
+		var day = d.getDay() == 0 ? 7 : d.getDay();
+		var endweek = dayofyear - (day + 1) + 1 + 1; //完整的倒第一周开始的时间
 
+		if (dayofyear < firstweek) {
+			weekofyear1 = 1;
+		} else {
 
+			if (dayofyear < firstweek + 7) {
+				weekofyear1 = 2;
+			} else {
+				weekofyear1 = Math.floor(((endweek - firstweek) / 7)) + 2;
+			}
+		}
+		return weekofyear1;
+	},
+	/**
+	 * [isLeapYear 判断年份是否是闰年]
+	 * @param  {[number]}  year [description]
+	 * @return {Boolean}      [description]
+	 */
+	isLeapYear: function(year) {
+		return (0 == year % 4 && ((year % 100 != 0) || (year % 400 == 0)));
+	}
 }
 
 
