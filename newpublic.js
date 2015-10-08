@@ -48,7 +48,7 @@ public.utils={
       /**
        * [loadOnDemand 按需加载]
        * @param  {[type]} option [配置参数]
-       * @return {[type]}        [无]
+       * @return {[type]}        [无] test
        */
       loadOnDemand:function(option){
           var option=option||{};
