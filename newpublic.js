@@ -202,4 +202,18 @@ public.date={
 	}
 }
 
+/***
+ * 获取元素相对于文档的top值
+ * 
+ * /
+function getElementTop(element){
+          var actualTop = element.offsetTop;
+          var current = element.offsetParent;
+          while (current !== null){
+              actualTop += current.offsetTop;
+              current = current.offsetParent;
+          }
+          return actualTop;
+      }
+
 
