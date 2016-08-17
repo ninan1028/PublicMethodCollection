@@ -119,23 +119,35 @@ public.other={
        windowToOpen:function(){
             // 一个函数中如果有ajax 根据回调的结果来判断是否进行跳转window.open 解决浏览器拦截的方法
             // window.open要写在事件函数中 避免浏览器拦截
-           var success=false;
-           $.ajax({
-           	url:url,
-           	data:null,
-           	type:"post",
-           	success:function(result){
-           		if(result.success){
-           			success=true;
-           		}
-           	}
-           })
-             setTimeout(function(){
+            // 这是原来写的代码, 现在一看2016.8.17 好像逻辑有点不对
+       //     var success=false;
+       //     $.ajax({
+       //     	url:url,
+       //     	data:null,
+       //     	type:"post",
+       //     	success:function(result){
+       //     		if(result.success){
+       //     			success=true;
+       //     		}
+       //     	}
+       //     })
+       //       setTimeout(function(){
+       //       if(success){
+       //          window.open(BUYER_BASE_URL+"/companyAttachment/collectionData");
+       //     }   
+       //   },100);
+       // }
+       
+       //可以使用jquery 中ajax内置的 promise的实现
+       var myajax=$.ajax({});
+       myajax.done(function(){
+       	setTimeout(function(){
              if(success){
                 window.open(BUYER_BASE_URL+"/companyAttachment/collectionData");
-           }   
-         },100);
-       }
+            }   
+          },100);
+       });
+       // 没有经过验证
 };
 public.date={
 	// 一个日期从1号到现在的周数.
@@ -183,7 +195,6 @@ public.date={
 		if (dayofyear < firstweek) {
 			weekofyear1 = 1;
 		} else {
-
 			if (dayofyear < firstweek + 7) {
 				weekofyear1 = 2;
 			} else {
